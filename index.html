@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Royal ClutchPulse | Elite Pressure Intelligence & Selection Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Top App Navigation Bar -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div>
+        <div class="brand-title">ROYAL <span>CLUTCHPULSE</span></div>
+        <div class="brand-subtitle">Elite Pressure Intelligence &amp; Selection Suite &bull; PS SupeRR Selector Season 2</div>
+      </div>
+    </div>
+
+    <!-- Discipline Pill Switcher -->
+    <div class="discipline-toggle">
+      <button id="toggleBatting" class="toggle-btn active" title="Switch to Batters">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        Top Batters
+      </button>
+      <button id="toggleBowling" class="toggle-btn" title="Switch to Bowlers">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/></svg>
+        Top Bowlers
+      </button>
+    </div>
+
+    <!-- Header Nav Action Buttons -->
+    <div class="header-nav-actions" style="display: flex; align-items: center; gap: 10px;">
+      <button id="navMethodologyBtn" class="nav-methodology-btn" title="Inspect Royal ClutchPulse Mathematical Architecture &amp; Methodology">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span>Pressure Architecture</span>
+      </button>
+      <button id="navSimulatorBtn" class="nav-sim-pill" title="Launch Real-Time Live Match Pressure Simulator">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span>Try Live Match Simulator</span>
+      </button>
+    </div>
+
+    <!-- Header Controls / Status -->
+    <div class="header-controls"></div>
+  </header>
+
+  <!-- 3-Column Cockpit Workspace -->
+  <main class="cockpit-container">
+
+    <!-- LEFT PINNED SIDEBAR: Filters & Settings -->
+    <aside class="left-rail">
+      <div class="rail-section-title">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        Filters &amp; Match Scope
+      </div>
+
+      <div class="filter-group">
+        <label class="filter-label" for="filterTournament">Tournament / Format</label>
+        <select id="filterTournament" class="filter-select">
+          <option value="ALL">All Competitions (IPL &amp; T20I)</option>
+          <option value="IPL">Indian Premier League (IPL)</option>
+          <option value="T20I">T20 Internationals (T20I)</option>
+        </select>
+      </div>
+
+      <!-- Player Origin Filter (Indian vs Overseas) -->
+      <div class="filter-group">
+        <label class="filter-label" for="filterOrigin">Player Origin / Nationality</label>
+        <select id="filterOrigin" class="filter-select">
+          <option value="ALL">All Players (Indian &amp; Overseas)</option>
+          <option value="INDIAN">Indian Players Only 🇮🇳</option>
+          <option value="OVERSEAS">Overseas (Foreign) Players 🌍</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-label">
+          <span>Min. Balls Faced / Bowled</span>
+          <span id="essSliderValue" style="color: var(--rr-pink); font-weight: 700;">0</span>
+        </div>
+        <div class="range-slider-wrap">
+          <input type="range" id="filterEssSlider" class="range-slider" min="0" max="1500" step="50" value="0">
+        </div>
+        <small style="font-size: 10px; color: var(--text-dim);">Slide to filter for players with extensive match experience</small>
+      </div>
+
+      <button id="btnResetFilters" class="btn-reset">Reset All Filters</button>
+    </aside>
+
+    <!-- CENTER STAGE: Visualisations, Tab Views & Detailed Tables -->
+    <section class="center-stage">
+      
+      <!-- Tab Navigation Header -->
+      <nav class="tabs-nav">
+        <button class="tab-btn active" data-tab="tab-leaderboard">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Leaderboard &amp; All Players
+        </button>
+        <button class="tab-btn" data-tab="tab-lift">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          Who Rises Under Pressure?
+        </button>
+      </nav>
+
+      <!-- Tab Content Body Area -->
+      <div class="tab-content-area">
+
+        <!-- TAB 1: Top 10 Leaderboard & Complete Cohort Table -->
+        <div id="tab-leaderboard" class="tab-pane active">
+          
+          <!-- Top 10 Bar Chart Panel -->
+          <div class="card-panel">
+            <div class="card-header-row">
+              <div class="card-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA1B86" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span id="top10ChartTitle">Top 10 Most Reliable Batters in Tight Finishes</span>
+              </div>
+            </div>
+            <div class="chart-container-lg">
+              <canvas id="top10Canvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Complete Cohort Table Panel -->
+          <div class="card-panel">
+            <div class="card-header-row" style="flex-wrap: wrap; gap: 12px;">
+              <div class="card-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA1B86" stroke-width="2.5"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                Complete Player Rankings
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px; margin-left: auto;">
+                <div class="search-input-wrap" style="width: 220px;">
+                  <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <input type="text" id="filterSearch" placeholder="Search player or team..." autocomplete="off" style="padding: 6px 10px 6px 30px; font-size: 12px;">
+                </div>
+                <span id="cohortCountBadge" class="card-badge">Loading...</span>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="cohort-table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Player</th>
+                    <th>Team / Country</th>
+                    <th class="th-tip" title="Official match-winning score adjusted for experience">Clutch Rating ⓘ</th>
+                    <th class="th-tip" title="Pure extra value per ball above average">Raw Impact ⓘ</th>
+                    <th class="th-tip" title="High-pressure deliveries tracked in IPL & T20I">Balls Played ⓘ</th>
+                    <th class="th-tip" title="Dependability floor and ceiling across 1,000 simulations">Consistency Range ⓘ</th>
+                    <th class="th-tip" title="▲ Rises in tight finishes vs ▼ Better in comfortable games">Pressure Boost ⓘ</th>
+                    <th class="th-tip" title="Value created in overs 16-20">Death Overs Impact ⓘ</th>
+                  </tr>
+                </thead>
+                <tbody id="cohortTableBody">
+                  <!-- Populated dynamically by app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: Pressure Lift & Crucible Split -->
+        <div id="tab-lift" class="tab-pane">
+          <div class="card-panel">
+            <div class="card-header-row">
+              <div class="card-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA1B86" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                Do They Rise to the Occasion or Fade Away?
+              </div>
+              <span class="card-badge">Comparing High-Pressure Moments vs Easy Games</span>
+            </div>
+            <div class="chart-container-lg">
+              <canvas id="liftCanvas"></canvas>
+            </div>
+            <div style="margin-top: 16px; font-size: 12px; color: var(--text-secondary); line-height: 1.6; background: rgba(234, 27, 134, 0.05); padding: 12px 16px; border-radius: var(--radius-sm); border-left: 3px solid var(--rr-pink);">
+              <strong>The Big Match Temperament:</strong> Anyone can score runs or take wickets when a match is already decided or during comfortable situations. True match-winners step up when the game is on the line. Our system measures whether a player's performance goes <strong>UP (green)</strong> or <strong>DOWN (red)</strong> as the match intensifies into close, nail-biting finishes.
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: Pure Client-Side Live Pressure Engine & Simulator -->
+        <div id="tab-simulator" class="tab-pane">
+          <div class="card-panel">
+            <div class="card-header-row">
+              <div class="card-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA1B86" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                Interactive Match Situation Simulator
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <button id="btnBackToLeaderboard" class="btn-back-link" title="Return to Cohort Leaderboard">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                  <span>Back to Leaderboard</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Instant Match Context Presets (Inside Simulator) -->
+            <div class="sim-presets-wrapper" style="margin-bottom: 20px;">
+              <div class="rail-section-title" style="margin-bottom: 8px;">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                Try These Famous Match Situations
+              </div>
+              <div class="presets-grid sim-presets-grid">
+                <button class="preset-btn active" data-preset="crucible">
+                  <span>Super Over / Final Over Thriller</span>
+                  <small>12 balls left, need 24 runs to win, 7 wkts down</small>
+                </button>
+                <button class="preset-btn" data-preset="routine">
+                  <span>Comfortable Run Chase</span>
+                  <small>60 balls left, need 50 runs to win, 2 wkts down</small>
+                </button>
+                <button class="preset-btn" data-preset="garbage">
+                  <span>Match Practically Decided</span>
+                  <small>18 balls left, need 65 runs to win, 8 wkts down</small>
+                </button>
+                <button class="preset-btn" data-preset="collapse">
+                  <span>Early Top-Order Collapse</span>
+                  <small>Score is 22/4 in Powerplay (Early crisis)</small>
+                </button>
+                <button class="preset-btn" data-preset="deathblitz">
+                  <span>Death Overs Finish (Final Overs)</span>
+                  <small>24 balls left, score 145/4 (Final acceleration)</small>
+                </button>
+              </div>
+            </div>
+
+            <div class="sim-grid">
+              
+              <!-- Input Panel -->
+              <div class="sim-inputs-panel">
+                <div class="filter-group">
+                  <label class="filter-label" for="simInn">Which Innings?</label>
+                  <select id="simInn" class="filter-select">
+                    <option value="2">2nd Innings (Chasing a Target)</option>
+                    <option value="1">1st Innings (Setting a Target)</option>
+                  </select>
+                </div>
+
+                <div class="filter-group">
+                  <label class="filter-label" for="simBrem">Balls Remaining (out of 120)</label>
+                  <input type="number" id="simBrem" class="filter-select" min="1" max="120" value="12">
+                </div>
+
+                <div class="filter-group">
+                  <label class="filter-label" for="simScore">Current Score (Runs)</label>
+                  <input type="number" id="simScore" class="filter-select" min="0" max="300" value="151">
+                </div>
+
+                <div class="filter-group">
+                  <label class="filter-label" for="simWkts">Wickets Down (0 to 10)</label>
+                  <input type="number" id="simWkts" class="filter-select" min="0" max="10" value="7">
+                </div>
+
+                <div id="simTargetGroup" class="filter-group">
+                  <label class="filter-label" for="simTarget">Target to Win (2nd Innings)</label>
+                  <input type="number" id="simTarget" class="filter-select" min="1" max="350" value="175">
+                </div>
+
+                <div id="simParGroup" class="filter-group" style="display: none;">
+                  <label class="filter-label" for="simPar">Expected Par Score (1st Innings)</label>
+                  <input type="number" id="simPar" class="filter-select" min="120" max="260" value="170">
+                </div>
+              </div>
+
+              <!-- Live Gauges & Metric Cards -->
+              <div class="sim-results-panel">
+                <div class="sim-gauges-row">
+                  <div class="gauge-box">
+                    <canvas id="pressureGaugeCanvas" class="gauge-canvas" width="220" height="170"></canvas>
+                    <div id="simClassificationBadge" class="gauge-classification class-crucible">CRITICAL PRESSURE</div>
+                  </div>
+                  <div class="gauge-box">
+                    <canvas id="wpGaugeCanvas" class="gauge-canvas" width="220" height="170"></canvas>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">BATTING WIN CHANCE</div>
+                  </div>
+                </div>
+
+                <div class="stats-grid-2x2">
+                  <div class="stat-box">
+                    <div class="stat-box-title">Pressure Level</div>
+                    <div id="simPressureIndex" class="stat-box-value" style="color: var(--rr-pink-light);">78.4</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-box-title">Chances of Winning</div>
+                    <div id="simWinProb" class="stat-box-value" style="color: #60A5FA;">18.2%</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-box-title">Match Tension (Swing per Ball)</div>
+                    <div id="simLeverage" class="stat-box-value" style="color: #FBBF24;">0.842</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-box-title">Run Rate Challenge</div>
+                    <div id="simTaskDiff" class="stat-box-value" style="color: #34D399;">0.715</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Tactical Dugout Recommendation Panel -->
+            <div class="dugout-rec-panel">
+              <div class="card-header-row" style="margin-bottom: 8px;">
+                <div class="card-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#EA1B86" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  Tactical Dugout Recommendations for This Match Situation
+                </div>
+                <span id="recStateSummary" class="card-badge">Evaluating Context...</span>
+              </div>
+              <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+                Smart player selector: surfaces the top players proven to win matches in this exact phase and pressure tier. Click any player card to inspect their detailed profile.
+              </p>
+
+              <div class="dugout-rec-grid">
+                <!-- Batters Column -->
+                <div class="dugout-rec-col bat-col">
+                  <div class="rec-col-header">
+                    <span style="font-weight: 700; color: #FF4DA6;">🏏 Best Batters for This Moment</span>
+                    <small id="recBatLabel" style="color: var(--text-muted);">Specialists</small>
+                  </div>
+                  <div id="recBattersList" class="rec-cards-list">
+                    <!-- Populated dynamically by app.js -->
+                  </div>
+                </div>
+
+                <!-- Bowlers Column -->
+                <div class="dugout-rec-col bowl-col">
+                  <div class="rec-col-header">
+                    <span style="font-weight: 700; color: #60A5FA;">🎯 Best Bowlers to Bowl This Over</span>
+                    <small id="recBowlLabel" style="color: var(--text-muted);">Specialists</small>
+                  </div>
+                  <div id="recBowlersList" class="rec-cards-list">
+                    <!-- Populated dynamically by app.js -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+                <!-- TAB 4: Royal ClutchPulse Architecture & Quantitative Methodology -->
+        <div id="tab-methodology" class="tab-pane">
+          <div class="card-panel">
+            
+            <!-- Header Row with Back Button -->
+            <div class="card-header-row" style="margin-bottom: 20px;">
+              <div class="card-title" style="font-size: 18px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EA1B86" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                ClutchPulse™ Mathematical Architecture &amp; Methodology
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <button id="btnBackFromMethodology" class="btn-back-link" title="Return to Leaderboard">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                  <span>Back to Leaderboard</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Executive Hero Overview -->
+            <div class="exec-hero-banner">
+              <span class="hero-tag">THE MODERN ANALYTICAL EDGE</span>
+              <h3 class="hero-title">Beyond Phase Dogma: Continuous Ball-by-Ball Leverage</h3>
+              <p class="hero-desc">
+                Conventional T20 analysis treats match context through crude proxies—mistakenly labeling all late overs as "high pressure" while ignoring early crisis stabilization, inflating garbage-time slogging, and punishing chasing anchors. <strong>Royal ClutchPulse</strong> replaces rigid phase buckets with a continuous, ball-by-ball leverage engine that dynamically isolates genuine match-winning execution across 186,780 deliveries.
+              </p>
+            </div>
+
+            <!-- The 4 Core Architectural Principles -->
+            <div class="section-heading-row">
+              <div class="section-main-title">⚡ 4 Foundational Innovations of the ClutchPulse Engine</div>
+            </div>
+
+            <div class="pillars-grid">
+              <!-- Principle 1 -->
+              <div class="pillar-card">
+                <div class="pillar-header">
+                  <span class="pillar-badge" style="background: rgba(234, 27, 134, 0.18); color: #F472B6; border: 1px solid rgba(234, 27, 134, 0.35);">Principle 1</span>
+                  <span class="pillar-title">🎯 Dynamic Win-Probability Leverage (Zero Phase Heuristics)</span>
+                </div>
+                <div class="pillar-flaw">
+                  <strong>⚠️ Legacy Blindspot:</strong> Static models classify overs 16–20 as high tension even during a comfortable walkover (e.g., chasing 12 off 30 balls with 9 wickets in hand), artificially inflating finisher reputations on low-stakes stat padding.
+                </div>
+                <div class="pillar-solution">
+                  <strong>✨ ClutchPulse Innovation:</strong> Calculates exact pre-ball win probability swings <em>L(S<sub>t</sub>) = &Sigma; p<sub>o</sub> |&Delta;WP|</em> across all 9 possible ball outcomes, multiplied by logistic task difficulty <em>T(S<sub>t</sub>)</em>. Dead overs collapse to near zero, while collapse-recovery balls in the powerplay correctly receive elite pressure weighting.
+                </div>
+              </div>
+
+              <!-- Principle 2 -->
+              <div class="pillar-card">
+                <div class="pillar-header">
+                  <span class="pillar-badge" style="background: rgba(56, 189, 248, 0.18); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.35);">Principle 2</span>
+                  <span class="pillar-title">⚖️ Role-Neutral Valuation (Eliminating Finisher Bias)</span>
+                </div>
+                <div class="pillar-flaw">
+                  <strong>⚠️ Legacy Blindspot:</strong> Rewarding raw death strike-rates systematically over-indexes lower-order hitters (#6 and #7) while severely undervaluing top-order anchors who conquer new-ball swing, stem top-order collapses, and calibrate steep chases.
+                </div>
+                <div class="pillar-solution">
+                  <strong>✨ ClutchPulse Innovation:</strong> Measures <strong>Pressure Lift (&Delta; = SVA<sub>pressure</sub> - SVA<sub>routine</sub>)</strong> relative to an individual player's baseline in identical phases. Aggressive openers (Vaibhav Sooryavanshi, Abhishek Sharma) and crisis anchors are evaluated on equal tactical merit with late-overs finishers (Tim David, Heinrich Klaasen).
+                </div>
+              </div>
+
+              <!-- Principle 3 -->
+              <div class="pillar-card">
+                <div class="pillar-header">
+                  <span class="pillar-badge" style="background: rgba(16, 185, 129, 0.18); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.35);">Principle 3</span>
+                  <span class="pillar-title">🔬 Empirical Bayes Variance Regularization (Kish Sample Shrinkage)</span>
+                </div>
+                <div class="pillar-flaw">
+                  <strong>⚠️ Legacy Blindspot:</strong> Unregularized averages allow small-sample anomalies (10–20 ball cameos or isolated tournament cameos) to hijack recruitment leaderboards with misleading, unsustainable metrics.
+                </div>
+                <div class="pillar-solution">
+                  <strong>✨ ClutchPulse Innovation:</strong> Implements Stein-type Empirical Bayes shrinkage using Kish Effective Sample Size <em>N<sub>eff</sub> = (&Sigma;w<sub>i</sub>)<sup>2</sup> / &Sigma;(w<sub>i</sub><sup>2</sup>)</em> with prior weight <em>K = 50</em>. Ratings reflect genuine sample mean only after extensive high-leverage exposure, ensuring only consistent match-winners top the rankings.
+                </div>
+              </div>
+
+              <!-- Principle 4 -->
+              <div class="pillar-card">
+                <div class="pillar-header">
+                  <span class="pillar-badge" style="background: rgba(245, 158, 11, 0.18); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.35);">Principle 4</span>
+                  <span class="pillar-title">🛡️ Monotonic Anti-Trap Calibration &amp; Ranking Stability</span>
+                </div>
+                <div class="pillar-flaw">
+                  <strong>⚠️ Legacy Blindspot:</strong> The "Settled Batter Paradox"—as a dominant batter steadily diminishes the target, win probability rises and leverage naturally decays, perversely penalizing the batter for their own clinical match control.
+                </div>
+                <div class="pillar-solution">
+                  <strong>✨ ClutchPulse Innovation:</strong> Monotonic baseline-lift formulation guarantees continuous positive credit for chase-pacing anchors. Top performers remain <strong>100% invariant</strong> across extensive sensitivity and parameter scans (&alpha; &isin; [0.1, 0.9]).
+                </div>
+              </div>
+            </div>
+
+            <!-- Technical Benchmark Matrix Table -->
+            <div class="section-heading-row">
+              <div class="section-main-title">📊 Architectural Comparison: Traditional Cricket Metrics vs. Royal ClutchPulse</div>
+            </div>
+
+            <div class="benchmark-table-wrapper">
+              <table class="benchmark-table">
+                <thead>
+                  <tr>
+                    <th style="width: 22%;">Analytical Dimension</th>
+                    <th style="width: 39%;">Conventional Scouting Metrics</th>
+                    <th style="width: 39%;">Royal ClutchPulse Engine</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Pressure Quantification</strong></td>
+                    <td>Static over buckets (e.g., Overs 16–20 = high pressure) or basic boundary percentage filters.</td>
+                    <td><strong>Continuous Delivery Model:</strong> Pre-ball leverage consequence <em>L(S<sub>t</sub>)</em> multiplied by logistic task difficulty <em>T(S<sub>t</sub>)</em> on every single ball.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Positional Equity</strong></td>
+                    <td>Heavy bias toward late-innings sloggers; openers facing swinging crises are heavily penalized.</td>
+                    <td><strong>Zero Role Bias:</strong> Normalized Pressure Lift (&Delta;) computed against personal baseline across Powerplay, Middle, and Death phases.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Sample Reliability</strong></td>
+                    <td>Raw unweighted strike rates; distorted by short 10-ball cameos and small-sample tournament runs.</td>
+                    <td><strong>Empirical Bayes Regularization:</strong> Kish Effective Sample Size (<em>N<sub>eff</sub></em>) with prior shrinkage (<em>K = 50</em>) to eliminate statistical noise.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Target Pacing Integrity</strong></td>
+                    <td>Penalizes set anchors whose steady accumulation decreases the match leverage for succeeding balls.</td>
+                    <td><strong>Monotonic Anti-Trap Design:</strong> Continuous positive value preservation for systematic target pacing and match completion.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Parameter Stability</strong></td>
+                    <td>Rankings swing wildly with slight variations in weighting cutoffs or phase limits.</td>
+                    <td><strong>Rigorous Invariance:</strong> Key leaders remain consistently anchored across rigorous parameter stress tests.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Validation Standard</strong></td>
+                    <td>Informal formulas without delivery-level mathematical auditing.</td>
+                    <td><strong>Audited Pipeline:</strong> 10-stage delivery validation certifying monotonicity, schema integrity, and statistical soundness.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Mathematical Formulation -->
+            <div class="section-heading-row" style="margin-top: 32px;">
+              <div class="section-main-title">📐 The Master Pressure Formula &amp; Analytical Derivation</div>
+            </div>
+
+            <!-- Master Formula Card -->
+            <div class="master-formula-card">
+              <div class="formula-latex-wrap">
+                <span class="formula-latex-text">P(S<sub>t</sub>) = [ T(S<sub>t</sub>) &times; L<sub>norm</sub>(S<sub>t</sub>) ]<sup>1/2</sup> = &radic;(T(S<sub>t</sub>) &times; L<sub>norm</sub>(S<sub>t</sub>))</span>
+              </div>
+              <p style="font-size: 13px; color: #E2E8F0; text-align: center; margin: 10px 0 0 0; line-height: 1.5;">
+                Every delivery is evaluated on a continuous scale <em>P(S<sub>t</sub>) &isin; [0, 100]</em>, formalized as the <strong>orthogonal geometric intersection</strong> between tactical difficulty and match consequence.
+              </p>
+            </div>
+
+            <!-- 3 Pillar Decomposition Cards -->
+            <div class="decomp-grid">
+              <div class="decomp-card">
+                <div class="decomp-title" style="color: #38BDF8;">1. Tactical Difficulty: T(S<sub>t</sub>)</div>
+                <div class="decomp-body">
+                  <strong>Formulation:</strong><br>
+                  <code style="color: #38BDF8;">T(S<sub>t</sub>) = &sigma;(&beta;<sub>0</sub> + &beta;<sub>1</sub>(RRR - Par) + &beta;<sub>2</sub>(WktsLost / BallsLeft)) &times; 100</code><br><br>
+                  <strong>Physical Meaning:</strong><br>
+                  Measures <strong>immediate task steepness</strong>. Needing 14.0 RRR with 7 wickets down yields near-peak difficulty (<em>T &gt; 90</em>). Needing 4.0 RRR with 9 wickets in hand yields minimal difficulty (<em>T &lt; 10</em>).
+                </div>
+              </div>
+
+              <div class="decomp-card">
+                <div class="decomp-title" style="color: #F472B6;">2. Consequence Leverage: L<sub>norm</sub>(S<sub>t</sub>)</div>
+                <div class="decomp-body">
+                  <strong>Formulation:</strong><br>
+                  <code style="color: #F472B6;">L(S<sub>t</sub>) = &Sigma; p<sub>o</sub> |WP(S<sub>t+1</sub><sup>(o)</sup>) - WP(S<sub>t</sub>)|</code><br>
+                  <code style="color: #F472B6;">L<sub>norm</sub> = ECDF<sub>186k</sub>(L(S<sub>t</sub>)) &times; 100</code><br><br>
+                  <strong>Physical Meaning:</strong><br>
+                  Measures <strong>match balance volatility</strong> across all 9 possible delivery outcomes, calibrated against empirical distributions across 186,780 deliveries to yield true percentile leverage.
+                </div>
+              </div>
+
+              <div class="decomp-card">
+                <div class="decomp-title" style="color: #10B981;">3. Geometric Mean Multiplicative Gate</div>
+                <div class="decomp-body">
+                  <strong>Formulation:</strong><br>
+                  <code style="color: #10B981;">P = [ T &times; L<sub>norm</sub> ]<sup>1/2</sup></code><br><br>
+                  <strong>The Orthogonal Gating Law:</strong><br>
+                  If <em>either</em> difficulty or consequence tends toward zero, <strong>overall pressure collapses to zero</strong>.<br>
+                  &bull; High consequence during a routine chase? Pressure collapses.<br>
+                  &bull; Impossible target when the match is already lost? Pressure collapses.<br>
+                  <strong>Eliminates artificial stat inflation in decided contests.</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- The 4 Match Quadrants Matrix -->
+            <div class="section-heading-row" style="margin-top: 28px;">
+              <div class="section-main-title">🧭 The 4 Match Context Quadrants</div>
+            </div>
+
+            <div class="benchmark-table-wrapper">
+              <table class="benchmark-table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Quadrant</th>
+                    <th style="width: 15%;">Tactical Difficulty (T)</th>
+                    <th style="width: 15%;">Leverage (L<sub>norm</sub>)</th>
+                    <th style="width: 15%;">Pressure (P)</th>
+                    <th style="width: 35%;">Strategic Interpretation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>🔥 The Crucible</strong></td>
+                    <td>High (80 &ndash; 100)</td>
+                    <td>High (80 &ndash; 100)</td>
+                    <td><strong style="color: #EF4444;">80.0 &ndash; 100.0</strong></td>
+                    <td><strong>Elite Clutch Arena:</strong> Down-to-the-wire chases and high-stakes crises. Every ball creates massive win probability swings.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>🚶 Low-Stakes Dead Death</strong></td>
+                    <td>Near-Zero (5 &ndash; 15)</td>
+                    <td>High (70 &ndash; 90)</td>
+                    <td><strong style="color: #38BDF8;">18.7 &ndash; 36.7</strong></td>
+                    <td><strong>Comfortable Finish:</strong> Chasing low totals with ample wickets. Gating prevents inflated death-overs ratings.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>🏳️ Lost-Cause Tail</strong></td>
+                    <td>Extreme (90 &ndash; 100)</td>
+                    <td>Near-Zero (2 &ndash; 10)</td>
+                    <td><strong style="color: #F59E0B;">13.4 &ndash; 31.6</strong></td>
+                    <td><strong>Decided Outcome:</strong> Needing 70 off 12 balls. Slogging boundaries here does not alter win probability and yields no clutch credit.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>⚖️ Routine Baseline</strong></td>
+                    <td>Moderate (20 &ndash; 40)</td>
+                    <td>Moderate (20 &ndash; 40)</td>
+                    <td><strong style="color: #94A3B8;">20.0 &ndash; 40.0</strong></td>
+                    <td><strong>Match Equilibrium:</strong> Standard consolidation and rotation phases. Sets the replacement baseline for all athletes.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Baseline Calibration & Regularization -->
+            <div class="section-heading-row" style="margin-top: 28px;">
+              <div class="section-main-title">⚖️ Contextual Baselines &amp; Variance Regularization</div>
+            </div>
+
+            <div class="pillars-grid">
+              <div class="pillar-card">
+                <div class="pillar-header">
+                  <span class="pillar-badge" style="background: rgba(56, 189, 248, 0.18); color: #38BDF8; border: 1px solid rgba(56, 189, 248, 0.35);">Score Value Added</span>
+                  <span class="pillar-title">🏏 36 Cohort Baseline Matrices &amp; Wicket Caps</span>
+                </div>
+                <div style="font-size: 12px; color: #E2E8F0; line-height: 1.6;">
+                  Deliveries are benchmarked against expectation across <strong>36 discrete situational cells</strong>:<br>
+                  <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; display: inline-block; margin: 4px 0;">2 Innings &times; 2 Competitions (IPL/T20I) &times; 3 Phases &times; 3 Wicket Brackets = 36 Cells</code><br><br>
+                  <strong>Score Value Added (SVA):</strong><br>
+                  <code style="color: #38BDF8;">SVA = (Actual Runs - E[Runs | c]) + &lambda;<sub>eff</sub> &times; (E[Dismissal | c] - &xopf;<sub>out</sub>)</code><br><br>
+                  <strong>Dynamic Wicket Cap (&lambda;<sub>eff</sub>):</strong><br>
+                  Prevents disproportionate wicket value in low-scoring chases:<br>
+                  <code style="color: #F472B6;">&lambda;<sub>eff</sub> = min(&lambda;<sub>wkt</sub>, Runs Required)</code>
+                </div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-header">
+                  <span class="pillar-badge" style="background: rgba(16, 185, 129, 0.18); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.35);">Empirical Bayes</span>
+                  <span class="pillar-title">🔬 Kish Sample Shrinkage Toward the Population Mean</span>
+                </div>
+                <div style="font-size: 12px; color: #E2E8F0; line-height: 1.6;">
+                  Mitigates high variance from small opportunity counts via Stein-type Empirical Bayes shrinkage:<br><br>
+                  <strong>Kish Effective Sample Size:</strong><br>
+                  <code style="color: #10B981;">N<sub>eff</sub> = (&Sigma; w<sub>i</sub>)<sup>2</sup> / &Sigma; (w<sub>i</sub><sup>2</sup>)</code><br><br>
+                  <strong>Shrinkage Formulation (Prior Weight K = 50):</strong><br>
+                  <code style="color: #10B981;">SVA<sub>shrunk</sub> = [ N<sub>eff</sub> / (N<sub>eff</sub> + K) ] &times; SVA<sub>raw</sub> + [ K / (N<sub>eff</sub> + K) ] &times; &mu;<sub>grand</sub></code><br><br>
+                  <strong>Prerequisite:</strong> Requires at least 50 effective high-tension opportunities before an athlete's rating reflects 50% of their raw performance, screening out short-term flukes.
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Pressure Dynamics Explorer -->
+            <div class="section-heading-row" style="margin-top: 32px;">
+              <div class="section-main-title">🎛️ Interactive Pressure Dynamics Explorer</div>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+              Vary Tactical Difficulty <em>T(S<sub>t</sub>)</em> and Consequence Leverage <em>L<sub>norm</sub>(S<sub>t</sub>)</em> below to observe orthogonal geometric gating and live quadrant classification.
+            </p>
+
+            <div class="sandbox-container">
+              <div class="sandbox-inputs-panel">
+                <div class="filter-group">
+                  <div class="filter-label">
+                    <span>Tactical Difficulty: T(S<sub>t</sub>)</span>
+                    <span id="sandboxValT" style="color: #38BDF8; font-weight: 700;">75.0</span>
+                  </div>
+                  <div class="range-slider-wrap">
+                    <input type="range" id="sandboxDifficulty" class="range-slider" min="0" max="100" step="1" value="75">
+                  </div>
+                  <small style="font-size: 10px; color: var(--text-dim);">Steepness of the task based on required rate, wickets in hand, and balls remaining</small>
+                </div>
+
+                <div class="filter-group" style="margin-top: 16px;">
+                  <div class="filter-label">
+                    <span>Consequence Leverage: L<sub>norm</sub>(S<sub>t</sub>)</span>
+                    <span id="sandboxValL" style="color: #F472B6; font-weight: 700;">85.0</span>
+                  </div>
+                  <div class="range-slider-wrap">
+                    <input type="range" id="sandboxLeverage" class="range-slider" min="0" max="100" step="1" value="85">
+                  </div>
+                  <small style="font-size: 10px; color: var(--text-dim);">Win probability sensitivity across all 9 possible ball outcomes</small>
+                </div>
+
+                <div class="stat-box" style="margin-top: 20px; background: rgba(0, 0, 0, 0.25);">
+                  <div class="stat-box-title">Computed Master Pressure: P(S<sub>t</sub>) = &radic;(T &times; L)</div>
+                  <div id="sandboxValP" class="stat-box-value" style="color: var(--rr-pink); font-size: 30px;">79.8 / 100</div>
+                  <div id="sandboxQuadrantBadge" class="sandbox-badge">🔥 The Crucible (True High Pressure)</div>
+                  <p id="sandboxExplanation" style="font-size: 11px; color: var(--text-muted); margin: 8px 0 0 0; line-height: 1.5;">
+                    Both tactical difficulty and match consequence are high. Every delivery swings championship win probability. Elite match-winners thrive here.
+                  </p>
+                </div>
+              </div>
+
+              <div class="sandbox-gauge-panel">
+                <canvas id="formulaGaugeCanvas" class="gauge-canvas" width="260" height="200"></canvas>
+                <div style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 8px;">
+                  Real-time Orthogonal Gating Visualization
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+</div>
+    </section>
+
+    <!-- RIGHT PINNED SIDEBAR: Active Player Dossier & Skills Breakdown -->
+    <aside class="right-rail">
+      
+      <div class="profile-card">
+        <div class="profile-header">
+          <div id="profileAvatar" class="profile-avatar">VS</div>
+          <div class="profile-name-wrap">
+            <div id="profileName" class="profile-player-name">Vaibhav Sooryavanshi</div>
+            <div id="profileCountryTeam" class="profile-player-team">🇮🇳 India &bull; Rajasthan Royals</div>
+          </div>
+          <div id="profileRank" class="profile-rank-badge">RANK #1</div>
+        </div>
+
+        <div class="stats-grid-2x2">
+          <div class="stat-box">
+            <div class="stat-box-title">Clutch Rating</div>
+            <div id="statShrunk" class="stat-box-value val-positive">+0.2015</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-title">Raw Impact</div>
+            <div id="statRaw" class="stat-box-value">+0.2541</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-title">Balls Played</div>
+            <div id="statEss" class="stat-box-value" style="color: #FDE047;">942.8</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-box-title">Pressure Boost</div>
+            <div id="statLift" class="stat-box-value val-positive">+0.0892</div>
+          </div>
+        </div>
+
+        <!-- Scout's Verdict Takeaway Box -->
+        <div id="scoutVerdict" class="scout-verdict-box">
+          <!-- Populated dynamically by app.js -->
+        </div>
+
+        <!-- Skills Radar Chart -->
+        <div style="margin-top: 12px;">
+          <div class="rail-section-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>
+            Player Skills Breakdown
+          </div>
+          <div class="chart-container-md">
+            <canvas id="radarCanvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Head-to-Head Comparison Selector -->
+        <div class="h2h-select-wrap">
+          <label class="filter-label" for="h2hSelect">Compare with Another Player</label>
+          <select id="h2hSelect" class="filter-select">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+
+        <!-- Phase Breakdown Bar Chart -->
+        <div style="margin-top: 16px;">
+          <div class="rail-section-title">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            Performance by Match Stage
+          </div>
+          <div style="height: 140px; position: relative;">
+            <canvas id="phaseCanvas"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="app-footer">
+    <div>
+      <strong>Royal ClutchPulse &bull; Elite Pressure Intelligence &amp; Selection Suite</strong> &bull; PS SupeRR Selector Season 2
+    </div>
+    <div style="color: var(--text-dim);">
+      Historical IPL &amp; T20I Delivery Analytics (2022&ndash;2026)
+    </div>
+  </footer>
+
+  <!-- Scripts in Topological Order -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/simulator_config.js"></script>
+  <script src="js/pressure_engine.js"></script>
+  <script src="js/player_photos.js"></script>
+  <script src="js/data_batting.js"></script>
+  <script src="js/data_bowling.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
